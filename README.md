@@ -14,7 +14,7 @@ Importing:
 
 Example:
 
-```
+```Javascript
 import React from 'react';
 import useDragster from 'use-dragster';
 
