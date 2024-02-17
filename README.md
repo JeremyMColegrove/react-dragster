@@ -1,31 +1,61 @@
-# React + TypeScript + Vite
+# useDragster
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+`useDragster` is a React hook designed to simplify drag and drop event handling by providing easy-to-use abstractions for drag enter, drag leave, and drop events. It also addresses common browser bugs related to these events, ensuring a smooth and reliable user experience.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+`npm install react-dragster`
 
-## Expanding the ESLint configuration
+## Usage
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Importing:
 
-- Configure the top-level `parserOptions` property like this:
+`import useDragster from 'react-dragster';`
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Example:
+
+```
+import React from 'react';
+import useDragster from 'use-dragster';
+
+const YourComponent = () => {
+
+  // Initialize the useDragster hook
+  const watcherRef = useDragster({
+    dragsterEnter: () => console.log('Drag entered!'),
+    dragsterLeave: () => console.log('Drag left!'),
+    dragsterDrop: () => console.log('Item dropped!'),
+  });
+
+  return (
+      {/* Apply the ref to the element you want to monitor for drag events */}
+      <div ref={watcherRef} onDragOver={...} >
+        {/* your draggable will trigger the events, properly*/}
+        <div draggable/>
+      </div>
+  );
+};
+
+export default YourComponent;
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# react-dragster
+> [!IMPORTANT]
+> The hook will capture the dragstart, dragend, drop events, call `preventDefault()` and `stopPropogation()`, and then pass the event into the provided function if correct.
+
+## API:
+
+`useDragster(options: DragsterOptions): watcherRef: React.MutableRefObject<any> `
+
+## DragsterOptions:
+
+-   `dragsterEnter?: (e: React.DragEvent) => any`: Function to be called on drag enter event.
+-   `dragsterLeave?: (e: React.DragEvent) => any`: Function to be called on drag leave event.
+-   `dragsterDrop?: (e: React.DragEvent) => any`: Function to be called on drop event.
+
+## Contributing
+
+We welcome contributions! If you find any issues or have suggestions, feel free to open an issue or create a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

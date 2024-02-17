@@ -1,31 +1,32 @@
 import {useEffect, useRef} from 'react'
 
 interface DragsterOptions {
-	dragsterEnter?: (e: React.DragEvent<HTMLDivElement>) => any
-	dragsterLeave?: (e: React.DragEvent<HTMLDivElement>) => any
-	dragsterDrop?: (e: React.DragEvent<HTMLDivElement>) => any
+	dragsterEnter?: (e: React.DragEvent<any>) => any
+	dragsterLeave?: (e: React.DragEvent<any>) => any
+	dragsterDrop?: (e: React.DragEvent<any>) => any
 }
 
 const useDragster = (props: DragsterOptions) => {
-	const elementRef = useRef<any>(null)
+	const watcherRef = useRef<any>(null)
 	let first = useRef<boolean>(false)
 	let second = useRef<boolean>(false)
 
-	const dragEnter = (event: React.DragEvent<HTMLDivElement>) => {
-		event.stopPropagation()
+	const dragEnter = (event: React.DragEvent<any>) => {
 		event.preventDefault()
+		event.stopPropagation()
 
 		if (first.current) {
 			second.current = true
 		} else {
 			first.current = true
+
 			props.dragsterEnter && props.dragsterEnter(event)
 		}
 	}
 
-	const dragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-		event.stopPropagation()
+	const dragLeave = (event: React.DragEvent<any>) => {
 		event.preventDefault()
+		event.stopPropagation()
 
 		if (second.current) {
 			second.current = false
@@ -38,17 +39,18 @@ const useDragster = (props: DragsterOptions) => {
 		}
 	}
 
-	const drop = (event: React.DragEvent<HTMLDivElement>) => {
-		event.stopPropagation()
+	const drop = (event: React.DragEvent<any>) => {
 		event.preventDefault()
+		event.stopPropagation()
 
 		first.current = false
 		second.current = false
+
 		props.dragsterDrop && props.dragsterDrop(event)
 	}
 
 	useEffect(() => {
-		const element = elementRef.current
+		const element = watcherRef.current
 
 		if (element) {
 			element.addEventListener('dragenter', dragEnter)
@@ -59,7 +61,7 @@ const useDragster = (props: DragsterOptions) => {
 	}, [props.dragsterEnter])
 
 	useEffect(() => {
-		const element = elementRef.current
+		const element = watcherRef.current
 
 		if (element) {
 			element.addEventListener('dragleave', dragLeave)
@@ -70,7 +72,7 @@ const useDragster = (props: DragsterOptions) => {
 	}, [props.dragsterLeave])
 
 	useEffect(() => {
-		const element = elementRef.current
+		const element = watcherRef.current
 
 		if (element) {
 			element.addEventListener('drop', drop)
@@ -80,9 +82,7 @@ const useDragster = (props: DragsterOptions) => {
 		}
 	}, [props.dragsterDrop])
 
-	return {
-		elementRef,
-	}
+	return watcherRef
 }
 
 export default useDragster

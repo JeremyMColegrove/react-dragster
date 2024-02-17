@@ -8,8 +8,7 @@ export default defineConfig({
 	plugins: [external()],
 	external: ['react', 'react-dom'],
 	build: {
-		manifest: true,
-		minify: true,
+		minify: 'terser',
 		reportCompressedSize: true,
 		lib: {
 			entry: './src/main.ts',

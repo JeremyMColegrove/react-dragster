@@ -1,4 +1,3 @@
-import useDragster from './Dragster.hook'
-import Dragster from './Dragster'
+import useDragster from './useDragster'
 
-export {Dragster, useDragster}
+export default useDragster
