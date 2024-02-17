@@ -1,7 +1,7 @@
 {
 	"name": "react-dragster",
 	"private": false,
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "useDragster is a React hook designed to simplify drag and drop event handling by providing easy-to-use abstractions for drag enter, drag leave, and drop events. It also addresses common browser bugs related to these events, ensuring a smooth and reliable user experience.",
 	"repository": {
 		"url": "https://github.com/JeremyMColegrove/react-dragster"

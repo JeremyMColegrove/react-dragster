@@ -30,11 +30,11 @@ const useDragster = (props: DragsterOptions) => {
 
 		if (second.current) {
 			second.current = false
-		} else if (first) {
+		} else if (first.current) {
 			first.current = false
 		}
 
-		if (!first && !second) {
+		if (!first.current && !second.current) {
 			props.dragsterLeave && props.dragsterLeave(event)
 		}
 	}
