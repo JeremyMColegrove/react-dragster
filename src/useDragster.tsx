@@ -1,19 +1,64 @@
 import {useEffect, useRef} from 'react'
 
-interface DragsterOptions {
-	dragsterEnter?: (e: React.DragEvent<any>) => any
-	dragsterLeave?: (e: React.DragEvent<any>) => any
-	dragsterDrop?: (e: React.DragEvent<any>) => any
+export interface DragsterOptions {
+	/**
+	 * Should the hook prevent the default behavior of the events?
+	 * @alias preventDefault()
+	 * @default true
+	 */
+	preventDefault?: boolean
+	/**
+	 * Should the hook stop the propagation of the events?
+	 * @default true
+	 */
+	stopPropagation?: boolean
 }
 
-const useDragster = (props: DragsterOptions) => {
+interface DragsterProps {
+	/**
+	 * The event that fires when a 'dragenter' event fires.
+	 * @param e React.DragEvent<any>
+	 * @returns any
+	 */
+	dragsterEnter?: (e: React.DragEvent<any>) => any
+	/**
+	 * The event that fires when a 'dragleave' event fires.
+	 * @param e React.DragEvent<any>
+	 * @returns any
+	 */
+	dragsterLeave?: (e: React.DragEvent<any>) => any
+	/**
+	 * The event that fires when a 'drop' event fires.
+	 * @param e React.DragEvent<any>
+	 * @returns any
+	 */
+	dragsterDrop?: (e: React.DragEvent<any>) => any
+	/**
+	 * Options to modify hook default behavior.
+	 */
+	options?: DragsterOptions
+}
+
+const defaultOptions: DragsterOptions = {
+	preventDefault: true,
+	stopPropagation: true,
+}
+
+/**
+ *
+ * @param props DragsterProps
+ * @returns React.MutableRefObject<any>
+ */
+const useDragster = (props: DragsterProps) => {
+	const options = Object.assign(defaultOptions, props.options)
+
 	const watcherRef = useRef<any>(null)
 	let first = useRef<boolean>(false)
 	let second = useRef<boolean>(false)
 
 	const dragEnter = (event: React.DragEvent<any>) => {
-		event.preventDefault()
-		event.stopPropagation()
+		options.preventDefault && event.preventDefault()
+		options.stopPropagation && event.stopPropagation()
 
 		if (first.current) {
 			second.current = true
@@ -25,8 +70,8 @@ const useDragster = (props: DragsterOptions) => {
 	}
 
 	const dragLeave = (event: React.DragEvent<any>) => {
-		event.preventDefault()
-		event.stopPropagation()
+		options.preventDefault && event.preventDefault()
+		options.stopPropagation && event.stopPropagation()
 
 		if (second.current) {
 			second.current = false
@@ -40,8 +85,8 @@ const useDragster = (props: DragsterOptions) => {
 	}
 
 	const drop = (event: React.DragEvent<any>) => {
-		event.preventDefault()
-		event.stopPropagation()
+		options.preventDefault && event.preventDefault()
+		options.stopPropagation && event.stopPropagation()
 
 		first.current = false
 		second.current = false

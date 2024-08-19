@@ -25,10 +25,14 @@ const YourComponent = () => {
     dragsterEnter: () => console.log('Drag entered!'),
     dragsterLeave: () => console.log('Drag left!'),
     dragsterDrop: () => console.log('Item dropped!'),
+    options: {
+      preventDefault:false,
+      stopPropagation: false
+    }
   });
 
   return (
-      {/* Apply the ref to the element you want to monitor for drag events */}
+      {/* Apply the ref to the element you want to monitor for drag leave, enter, and drop events */}
       <div ref={watcherRef} onDragOver={...} >
         {/* your draggable will trigger the events, properly*/}
         <div draggable/>
@@ -39,18 +43,18 @@ const YourComponent = () => {
 export default YourComponent;
 ```
 
-> [!IMPORTANT]
-> The hook will capture the dragstart, dragend, drop events, call `preventDefault()` and `stopPropogation()`, and then pass the event into the provided function if correct.
-
 ## API:
 
-`useDragster(options: DragsterOptions): watcherRef: React.MutableRefObject<any> `
+`useDragster(props: DragsterProps): watcherRef: React.MutableRefObject<any> `
 
-## DragsterOptions:
+## DragsterProps:
 
 -   `dragsterEnter?: (e: React.DragEvent) => any`: Function to be called on drag enter event.
 -   `dragsterLeave?: (e: React.DragEvent) => any`: Function to be called on drag leave event.
 -   `dragsterDrop?: (e: React.DragEvent) => any`: Function to be called on drop event.
+-   `options?: {preventDefault?:boolean, stopPropagation?:boolean}`: Options to change the hook behavior. Default: `{preventDefault:true, stopPropagation:true}`.
+
+> If you want more options added for this hook, please open an issue. Thanks!
 
 ## Contributing
 
